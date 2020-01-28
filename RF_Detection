@@ -1,0 +1,66 @@
+/*
+Author: Zak Knowlton
+*/
+
+int digitalPin = 10;  // the RSSI pin 6 of Xbee is connected to this PWM Pin. (Digital Pin 10)
+int rssiDur;  // Variable for RSSI
+int led = 15;  // LED connected to Pin 13
+ 
+void setup()
+{
+ pinMode(led, OUTPUT);
+ pinMode(digitalPin, INPUT);
+ Serial.begin(9600);
+// Serial3.begin(9600);   // this is the connection of your Xbee to your Arduino MEGA!!
+}
+void loop()
+{
+  //  if(Serial3.available()) {   //checks for signal
+    //    if(Serial3.read() == 0x7E) {  //checks if the signal contains start byte 0x7E
+//          Serial.print("7E, ");
+     //   }
+              for(int i = 0; i < 21; i++) {
+//                Serial.print(Serial3.read(), HEX);  //prints out the whole API frame
+//                Serial.print(", ");
+                 //  byte discardByte = Serial3.read();
+                   rssiDur = pulseIn(digitalPin, LOW, 200); // get's the RSSI Value
+//                   if(rssiDur != 0)
+//                   Serial.println(rssiDur);  //for debbuging and first setup.
+
+
+                  //ZONE DEFINITION 1
+//                  if(rssiDur < 20 && rssiDur != 0) {  
+//                           Serial.println("Zone 1");
+//                           Serial.print("RSSI: ");
+//                           Serial.println(rssiDur);
+//                  }
+//                  if(rssiDur > 20 && rssiDur != 0) {
+//                          Serial.println("Other Zones");
+//                          Serial.print("RSSI: ");
+//                          Serial.println(rssiDur);
+//                  }
+
+                  //ZONE DEFINITION 2
+                  if(rssiDur < 10 && rssiDur != 0) {  
+                           Serial.println("HOT");
+                           Serial.print("RSSI: ");
+                           Serial.println(rssiDur);
+                  }
+                  if(rssiDur > 10 && rssiDur < 20 && rssiDur != 0) {  
+                           Serial.println("WARM");
+                           Serial.print("RSSI: ");
+                           Serial.println(rssiDur);
+                  }
+                  if(rssiDur >= 20 && rssiDur != 0) {  
+                           Serial.println("COLD");
+                           Serial.print("RSSI: ");
+                           Serial.println(rssiDur);
+                  }
+
+
+                  
+               }
+       //        Serial.println();
+          }
+  //   }
+//}
